@@ -26,6 +26,24 @@ This project combines **FastAPI**, **LangChain**, **ChromaDB**, and **Groq LLMs*
 * Clean scrolling chat UI
 * Upload validation & error handling
 
+
+## 🖼️ User Interface
+### Initial ui
+![Initial UI](screenshots/initial.png)
+
+
+### 📂 Document Selection & Upload
+![Upload UI](screenshots/upload.png)
+
+### 💬 Chat with Document
+![Chat UI](screenshots/chat.png)
+
+### 📑 Sidebar Navigation
+![Sidebar](screenshots/sidebarcollapse.png)
+
+
+
+
 ---
 
 ## 🏗️ Architecture Overview
