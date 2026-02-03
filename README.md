@@ -29,7 +29,7 @@ This project combines **FastAPI**, **LangChain**, **ChromaDB**, and **Groq LLMs*
 
 ## 🖼️ User Interface
 ### Initial ui
-![Initial UI](screenshots/initial.png)
+![Initial UI](screenshots/ui.png)
 
 
 ### 📂 Document Selection & Upload
