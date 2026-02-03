@@ -19,7 +19,7 @@ This project combines **FastAPI**, **LangChain**, **ChromaDB**, and **Groq LLMs*
 
 ### ✅ User Experience
 
-* ChatGPT-style interface
+* professional-style interface
 * Sidebar document list
 * Instant document switching
 * Auto-load previous chat history
