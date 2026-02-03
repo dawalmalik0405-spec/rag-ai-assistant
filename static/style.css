@@ -1,0 +1,239 @@
+/* ---------- RESET ---------- */
+
+
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* ---------- LAYOUT ---------- */
+body {
+    height: 100vh;
+    background-color: #0f0f0f;
+    color: #eaeaea;
+}
+
+.app {
+    display: flex;
+    height: 100vh;
+}
+
+/* ---------- SIDEBAR ---------- */
+.side-bar {
+    width: 260px;
+    background-color: #171717;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #2a2a2a;
+}
+
+.side-bar h2 {
+    font-size: 16px;
+    margin-bottom: 12px;
+    color: #cccccc;
+}
+
+
+.side-bar {
+    overflow-y: auto;
+}
+
+.side-bar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.side-bar::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 8px;
+}
+
+
+.file-list {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 12px;
+}
+
+/* ---------- FILE ITEMS ---------- */
+.file-item {
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #dcdcdc;
+    transition: background 0.2s ease;
+}
+
+.file-item:hover {
+    background-color: #242424;
+}
+
+.file-item.active {
+    background-color: #2f2f2f;
+    font-weight: 600;
+}
+
+/* ---------- UPLOAD BUTTON ---------- */
+.upload-btn {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    border-radius: 6px;
+    background-color: #2f2f2f;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s ease;
+}
+
+.upload-btn:hover {
+    background-color: #3a3a3a;
+}
+
+/* ---------- CHAT CONTAINER ---------- */
+.chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #0f0f0f;
+}
+
+/* ---------- CHAT HEADER ---------- */
+.chat-header {
+    padding: 14px 18px;
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+#active-file {
+    font-weight: normal;
+    opacity: 0.7;
+    margin-left: 6px;
+}
+
+/* ---------- CHAT BOX ---------- */
+.chat-box {
+    /* width: 2000px; */
+    flex: 1;
+    padding: 18px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    scroll-behavior: smooth;
+    
+}
+
+/* ---------- MESSAGES ---------- */
+.user-message {
+    align-self: flex-end;
+    background-color: #2e2e2e;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 12px;
+    max-width: 70%;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.ai-message {
+    align-self: flex-start;
+    background-color: #535252;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 12px;
+    max-width: 70%;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+/* ---------- CHAT INPUT ---------- */
+.chat-input {
+    padding: 14px;
+    display: flex;
+    gap: 10px;
+    border-top: 1px solid #2a2a2a;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    background-color: #1c1c1c;
+    color: #ffffff;
+}
+
+.chat-input input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.chat-input button {
+    padding: 0 16px;
+    border-radius: 8px;
+    border: none;
+    background-color: #2f2f2f;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.2s ease;
+}
+
+.chat-input button:hover {
+    background-color: #3a3a3a;
+}
+
+
+
+/* ---------- SIDEBAR TOGGLE ---------- */
+.side-bar.collapsed {
+    width: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.side-bar.collapsed + .chat-container {
+    width: 100%;
+}
+
+/* Toggle button */
+#toggle-btn {
+    background: none;
+    border: none;
+    color: #eaeaea;
+    font-size: 18px;
+    cursor: pointer;
+    margin-right: 12px;
+}
+
+
+
+.chat-box::-webkit-scrollbar {
+    width: 12px;         /* scrollbar thickness */
+}
+
+.chat-box::-webkit-scrollbar-button{
+    height: 0px;
+}
+
+.chat-box::-webkit-scrollbar-track {
+    background: #1e1e1e; /* track color */
+}
+
+.chat-box::-webkit-scrollbar-thumb {
+    background-color: #7b7979; /* thumb color */
+    border-radius: 10px;
+    border: 2px solid #1e1e1e; /* padding effect */
+}
+
+.chat-box::-webkit-scrollbar-thumb:hover {
+    background-color: #f3f8f8;
+}
