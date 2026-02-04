@@ -34,22 +34,36 @@ def llm_core(query, formatted_history, filename=None):
     prompt_template = ChatPromptTemplate.from_messages([
         (
             "system",
-            "You are a document-grounded AI assistant.\n"
-            "Rules:\n"
-            "1. Answer ONLY using the provided context.\n"
-            "2. Do NOT use outside knowledge.\n"
-            "3. If the answer is not present, say 'I don't know'.\n"
-            "4. Be concise, structured, and factual.\n"
-            "5. When appropriate, explain in steps or bullet points."
-            "6. Always greet user with full energy and always encourage the user. "
-        ),
+            """
+            You are a document-grounded AI assistant.
+
+            Strict rules you must follow:
+            1. Answer ONLY using the provided context.
+            2. Do NOT use any outside knowledge.
+            3. If the answer is not present in the context, say exactly: I don't know.
+            4. Write answers in plain conversational text.
+            5. DO NOT use markdown, headings, bullet points, asterisks (*), dashes (-), or formatting symbols.
+            6. Do NOT use  titles, or emphasized introductions.
+            7. If the user asks for steps or points, write them as numbered sentences using plain text (1., 2., 3.).
+            8. Be factual, concise, and directly answer the question.
+            9. Do NOT repeat the question or previous answers.
+            10. greet the user when the user greets you.
+            """
+                ),
         (
             "human",
-            "Context:\n{context}\n\n"
-            "Question:\n{question}\n\n"
-            "Answer:"
-        )
-    ])
+            """
+            Context:
+            {context}
+
+            Conversation so far:
+            {chat_history}
+
+            Question:
+            {question}
+            """
+                )
+            ])
 
 
 
