@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RAG AI Assistant</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="app">
+
+    <!-- ===== SIDEBAR ===== -->
+    <div class="side-bar">
+        <h2>Documents</h2>
+
+        <div id="file-list" class="file-list">
+            <!-- Files injected here -->
+        </div>
+
+        <label for="file-upload" class="upload-btn">＋ Upload</label>
+        <input type="file" id="file-upload" hidden onchange="uploadFile()" />
+    </div>
+
+    <!-- ===== CHAT AREA ===== -->
+    <div class="chat-container">
+
+        <div class="chat-header">
+            <button id="toggle-btn" onclick="toggleSidebar()">☰</button>
+
+            RAG AI Assistant
+            <span id="active-file"></span>
+        </div>
+
+        <div id="chat-box" class="chat-box">
+            <div class="ai-message">
+                Upload a document and select it to start chatting.
+            </div>
+        </div>
+
+        <div class="chat-input">
+            <input
+                type="text"
+                id="user-input"
+                placeholder="Select a document first..."
+                disabled
+                onkeydown="if(event.key==='Enter') sendMessage()"
+            />
+            <button onclick="sendMessage()">➤</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+let selectedFile = "";
+
+/* ================= LOAD FILES ================= */
+async function loadFiles() {
+    const res = await fetch("/files");
+    const data = await res.json();
+
+    const fileList = document.getElementById("file-list");
+    fileList.innerHTML = "";
+
+    data.files.forEach(file => {
+        const div = document.createElement("div");
+        div.className = "file-item";
+        div.innerText = file;
+        div.onclick = () => selectFile(file);
+        fileList.appendChild(div);
+    });
+}
+
+/* ================= SELECT FILE ================= */
+async function selectFile(filename) {
+    selectedFile = filename;
+
+    // Highlight active file
+    document.querySelectorAll(".file-item").forEach(el => {
+        el.classList.toggle("active", el.innerText === filename);
+    });
+
+    // Update header
+    document.getElementById("active-file").innerText = ` — ${filename}`;
+
+    // Enable input
+    const input = document.getElementById("user-input");
+    input.disabled = false;
+    input.placeholder = "Ask something about the document...";
+
+    // Clear chat
+    const chatBox = document.getElementById("chat-box");
+    chatBox.innerHTML = "";
+
+    // Load history
+    const res = await fetch(`/history?filename=${encodeURIComponent(filename)}`);
+    const data = await res.json();
+
+    if (data.messages.length === 0) {
+        chatBox.innerHTML = `<div class="ai-message">Chatting with ${filename}</div>`;
+        return;
+    }
+
+    data.messages.forEach(msg => {
+        const div = document.createElement("div");
+        div.className = msg.role === "human" ? "user-message" : "ai-message";
+        div.innerText = msg.content;
+        chatBox.appendChild(div);
+    });
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+/* ================= SEND MESSAGE ================= */
+async function sendMessage() {
+    if (!selectedFile) return;
+
+    const input = document.getElementById("user-input");
+    const chatBox = document.getElementById("chat-box");
+    const message = input.value.trim();
+    if (!message) return;
+
+    const shouldAutoScroll = isUserAtBottom(chatBox);
+
+    const userDiv = document.createElement("div");
+    userDiv.className = "user-message";
+    userDiv.innerText = message;
+    chatBox.appendChild(userDiv);
+
+    input.value = "";
+
+    if (shouldAutoScroll) {
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    const loading = document.createElement("div");
+    loading.className = "ai-message";
+    loading.innerText = "Thinking...";
+    chatBox.appendChild(loading);
+
+
+    if (shouldAutoScroll) {
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    const res = await fetch("/chat", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ message, filename: selectedFile })
+    });
+
+    const data = await res.json();
+    loading.innerText = data.answer;
+    if (shouldAutoScroll) {
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+}
+
+/* ================= UPLOAD FILE ================= */
+async function uploadFile() {
+    const input = document.getElementById("file-upload");
+    const file = input.files[0];
+    if (!file) return;
+
+    const chatBox = document.getElementById("chat-box");
+    chatBox.innerHTML += `<div class="ai-message">Uploading ${file.name}...</div>`;
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = await fetch("/uploadfile/save/", {
+        method: "POST",
+        body: formData
+    });
+
+    if (res.ok) {
+        await loadFiles();
+        selectFile(file.name);
+    } else {
+        chatBox.innerHTML += `<div class="ai-message">Upload failed.</div>`;
+    }
+
+    input.value = "";
+}
+
+function toggleSidebar() {
+    document.querySelector(".side-bar").classList.toggle("collapsed");
+}
+
+function isUserAtBottom(container, threshold = 50) {
+    return (
+        container.scrollHeight - container.scrollTop - container.clientHeight
+        < threshold);
+}
+
+/* ================= INIT ================= */
+window.onload = loadFiles;
+</script>
+
+</body>
+</html>
