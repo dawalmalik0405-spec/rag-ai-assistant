@@ -78,32 +78,32 @@ def llm_core(query, formatted_history, filename=None):
 
 
 
-result = llm_core()
-print("Response from LLM:")
-print(result)
+# result = llm_core()
+# print("Response from LLM:")
+# print(result)
 
 
-def chat_with_llm():
+# def chat_with_llm():
     
-    while True:
-        query = input("You: ").strip()
-        if query.lower() in {"exit", "quit"}:
-            # print("Exiting chat.")
-            break
+#     while True:
+#         query = input("You: ").strip()
+#         if query.lower() in {"exit", "quit"}:
+#             # print("Exiting chat.")
+#             break
         
-        chat_history.add_user_message(query)
-        formatted_history = "\n".join(
-            f"{msg.type.upper()}: {msg.content}"
-            for msg in chat_history.messages
-        )
-        answer = llm_core(query, formatted_history)
-        # print(f"AI: {answer}")
-        chat_history.add_ai_message(answer)
+#         chat_history.add_user_message(query)
+#         formatted_history = "\n".join(
+#             f"{msg.type.upper()}: {msg.content}"
+#             for msg in chat_history.messages
+#         )
+#         answer = llm_core(query, formatted_history)
+#         # print(f"AI: {answer}")
+#         chat_history.add_ai_message(answer)
 
     
         
-if __name__ == "__main__":
-    chat_with_llm()
+# if __name__ == "__main__":
+#     chat_with_llm()
 
     
 
