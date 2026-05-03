@@ -56,7 +56,7 @@ def store_vdb(chunks, vectors, filename):
         embeddings=vectors,
         ids=ids,
         metadatas=metadatas
-    )
+    
 
     return {
         "stored_chunks": len(chunks),
